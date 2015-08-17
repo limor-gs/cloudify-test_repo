@@ -38,7 +38,7 @@ class Tox(testcommand):
 
 setup(
     name='cloudify-release-tool',
-    version='3.2a6',
+    version='3.2.5',
     url='https://github.com/cloudify-cosmo/cloudify-build-system',
     author='Gigaspaces',
     author_email='cosmo-admin@gigaspaces.com',
