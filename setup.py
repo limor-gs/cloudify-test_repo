@@ -37,7 +37,7 @@ class Tox(testcommand):
         sys.exit(errcode)
 
 setup(
-    name='cloudify-release-tool',
+    name='cloudify-release-toollll',
     version='3.3m4',
     url='https://github.com/cloudify-cosmo/cloudify-build-system',
     author='Gigaspaces',
