@@ -1,68 +1,61 @@
+########
+# Copyright (c) 2013 GigaSpaces Technologies Ltd. All rights reserved
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+#    * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    * See the License for the specific language governing permissions and
+#    * limitations under the License.
+
 from setuptools import setup
-# from setuptools import find_packages
-from setuptools.command.test import test as testcommand
-import sys
-import re
-import os
-import codecs
 
-here = os.path.abspath(os.path.dirname(__file__))
-
-
-def read(*parts):
-    # intentionally *not* adding an encoding option to open
-    return codecs.open(os.path.join(here, *parts), 'r').read()
-
-
-def find_version(*file_paths):
-    version_file = read(*file_paths)
-    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
-                              version_file, re.M)
-    if version_match:
-        print('VERSION: ', version_match.group(1))
-        return version_match.group(1)
-    raise RuntimeError("Unable to find version string.")
-
-
-class Tox(testcommand):
-    def finalize_options(self):
-        testcommand.finalize_options(self)
-        self.test_args = []
-        self.test_suite = True
-
-    def run_tests(self):
-        # import here, cause outside the eggs aren't loaded
-        import tox
-        errcode = tox.cmdline(self.test_args)
-        sys.exit(errcode)
 
 setup(
-    name='cloudify-release-tool',
-    version='3.3m7',
-    url='https://github.com/cloudify-cosmo/cloudify-build-system',
+    name='cloudify',
+    version='4.1a2',
     author='Gigaspaces',
     author_email='cosmo-admin@gigaspaces.com',
+    packages=['cloudify_cli',
+              'cloudify_cli.cli',
+              'cloudify_cli.commands',
+              'cloudify_cli.bootstrap',
+              'cloudify_cli.bootstrap.resources',
+              'cloudify_cli.config'],
+    package_data={
+        'cloudify_cli': [
+            'VERSION',
+            'config/config_template.yaml',
+            'bootstrap/resources/install_plugins.sh.template'
+        ],
+    },
     license='LICENSE',
-    platforms='All',
-    description='Cloudify Release Tool',
-    long_description=read('README.rst'),
-    packages=['crt'],
+    description="Cloudify's Command Line Interface",
     entry_points={
         'console_scripts': [
-            'crt = crt.crt:main',
+            'cfy = cloudify_cli.main:_cfy'
         ]
     },
     install_requires=[
         'click==4.0',
+        'wagon==0.3.2',
         'pyyaml==3.10',
-        'gitpython==0.3.6',
-        'repex==0.1.2',
-        'python-vagrant==0.5.8',
-        'fabric==1.10.1',
-        'gitpython==0.3.6',
-        'boto==2.36.0',
-        'jira==0.47',
-    ],
-    tests_require=['nose', 'tox'],
-    cmdclass={'test': Tox},
+        'fabric==1.8.3',
+        'jinja2==2.7.2',
+        'retrying==1.3.3',
+        'colorama==0.3.3',
+        'requests>=2.7.0,<3.0.0',
+        'PrettyTable>=0.7,<0.8',
+        'click_didyoumean==0.0.3',
+        'cloudify-dsl-parser==4.1a2',
+        'cloudify-script-plugin==1.4',
+        'cloudify-rest-client==4.1a2',
+        'cloudify-plugins-common==4.1a2',
+        'backports.shutil_get_terminal_size==1.0.0',
+    ]
 )
